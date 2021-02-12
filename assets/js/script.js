@@ -7,6 +7,13 @@ event.preventDefault();
 var taskNameInput = document.querySelector("input[name='task-name']").value;
 var taskTypeInput = document.querySelector("select[name='task-type']").value;
 
+//form validation/ checking fields and stopping completion if info is notfilled out
+if (!taskNameInput || !taskTypeInput) {
+    alert("you need to fill out the task form!!!");
+    return false;
+}
+formEl.reset();
+
 // packaging data as an object
 var taskDataObj = {
     name: taskNameInput,
