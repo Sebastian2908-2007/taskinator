@@ -42,6 +42,10 @@ taskInfoEl.className = "task-info";
 taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name  + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
 
 listItemEl.appendChild(taskInfoEl);
+// taskActionsEl is a variable i created to store createTaskActions function I am also using taskIdCounter as an argument
+var taskActionsEl = createTaskActions(taskIdCounter);
+listItemEl.appendChild(taskActionsEl);
+
 
 // add entire list item to list
 tasksToDoEl.appendChild(listItemEl);
@@ -50,6 +54,52 @@ tasksToDoEl.appendChild(listItemEl);
 taskIdCounter++;
 
 
-
 };
 formEl.addEventListener("submit", taskFormHandler);
+
+// for generating form elements variable logic
+
+var createTaskActions = function(taskId) {
+    //edit button creation block
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-button";
+    editButtonEl.setAttribute("data-task-id", taskId);
+    // edit button creation block ends
+    // append editbtn to div
+    actionContainerEl.appendChild(editButtonEl);
+
+    // delete button creation block
+    var deleteButtonEl = document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-button";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+    actionContainerEl.appendChild(deleteButtonEl);
+
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(statusSelectEl);
+    
+    //array for select <option> Elements to be used in for loop this method is better than creating three seperat but similar code blocks
+    // using arrays help us with the option of adding more code later, using less code!
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+
+    //four loop for looping through this choices aka <option elements> array
+    for (var i =0; i < statusChoices.length; i++) {
+        // create option el in four loop
+        var statusOptionEl = document.createElement("option");
+        statusOptionEl.textContent = statusChoices[i];
+        statusOptionEl.setAttribute("value",statusChoices[i]);
+
+        // append to select element
+        statusSelectEl.appendChild(statusOptionEl);
+    }
+
+return actionContainerEl;
+
+};
