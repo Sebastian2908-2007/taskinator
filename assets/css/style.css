@@ -82,11 +82,20 @@ footer {
   justify-content: center;
   margin: 25px auto;
   width: 95%;
-}
 
+}
+/* 0 0 20 also after margin dis width are not defaults*/
 .task-list-wrapper {
   flex: 1;
-  margin: 0 20px 20px;
+  margin: 0 0 20px;/* 25px auto;*/
+  display: inline-block;
+  width: 33%;
+  
+ 
+
+
+  
+  
 }
 
 .list-title {
