@@ -4,6 +4,7 @@ var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
 var tasksCompletedEl = document.querySelector("#tasks-completed");
+var tasks = [];
 
 var taskFormHandler = function(event) {  
 event.preventDefault(); 
@@ -29,7 +30,8 @@ if (isEdit) {
 else{
 var taskDataObj = {
     name: taskNameInput,
-    type: taskTypeInput
+    type: taskTypeInput,
+    status: "to do"
 };
 createTaskEl(taskDataObj); 
 
@@ -44,6 +46,14 @@ var completeEditTask = function(taskName, taskType, taskId) {
    // set new values
    taskSelected.querySelector("h3.task-name").textContent = taskType;
    taskSelected.querySelector("span.task-type").textContent = taskType;
+
+   // loop through tasks array and task object with new content
+   for (var i = 0; i < tasks.length; i++) {
+       if (tasks[i].id === parseInt(taskId)) {
+           tasks[i].name = taskName;
+           tasks[i].type = taskType;
+       }
+   };
 
    alert("Task updated!");
    // this resets the form by removing the task id  and changing the buttonon text back to normal
@@ -69,6 +79,9 @@ taskInfoEl.className = "task-info";
 taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name  + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
 
 listItemEl.appendChild(taskInfoEl);
+taskDataObj.id = taskIdCounter;
+
+tasks.push(taskDataObj);
 // taskActionsEl is a variable i created to store createTaskActions function I am also using taskIdCounter as an argument
 var taskActionsEl = createTaskActions(taskIdCounter);
 listItemEl.appendChild(taskActionsEl);
@@ -79,6 +92,8 @@ tasksToDoEl.appendChild(listItemEl);
 
 //increase task counter for next unique id
 taskIdCounter++;
+console.log(taskDataObj);
+console.log(taskDataObj.status);
 
 
 };
@@ -188,6 +203,13 @@ var taskStatusChangeHandler = function(event) {
    else if (statusValue === "completed") {
        tasksCompletedEl.appendChild(taskSelected);
    }
+   // upsate tasks in array
+   for (var i = 0; i < tasks.length; i++) {
+       if (tasks[i].id === parseInt(taskId)) {
+           tasks[i].status = statusValue;
+       }
+   };
+   console.log(tasks);
 
 };
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
